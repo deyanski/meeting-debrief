@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { SignOutButton } from '@/components/SignOutButton'
+import { SearchInput } from '@/components/SearchInput'
 
 type Props = {
   searchParams: Promise<{ q?: string }>
@@ -20,8 +21,19 @@ export default async function MeetingsPage({ searchParams }: Props) {
     .order('created_at', { ascending: false })
 
   if (query) {
-    // websearch_to_tsquery handles special chars safely (vs to_tsquery which throws on operators)
-    dbQuery = dbQuery.textSearch('fts', query, { type: 'websearch' })
+    // Split into words, sanitize tsquery special chars, append :* for prefix matching
+    // to_tsquery('foo:*') matches 'football', 'foolish', etc. — works without full word
+    const words = query.trim().split(/\s+/).filter(Boolean)
+    const prefixQuery = words
+      .map(w => w.replace(/[':&|!<>()*\\]/g, '').trim())
+      .filter(w => w.length > 0)
+      .map(w => `${w}:*`)
+      .join(' & ')
+
+    if (prefixQuery) {
+      // no type option = to_tsquery, which supports the :* prefix operator
+      dbQuery = dbQuery.textSearch('fts', prefixQuery)
+    }
   }
 
   const { data: meetings } = await dbQuery
@@ -87,41 +99,8 @@ export default async function MeetingsPage({ searchParams }: Props) {
             </p>
           </div>
 
-          {/* Search — pure form GET, works without JS */}
-          <form method="GET" className="flex gap-2">
-            <input
-              type="search"
-              name="q"
-              defaultValue={query}
-              placeholder="Search meetings…"
-              className="flex-1 px-3 py-2 rounded-sm text-sm"
-              style={{
-                backgroundColor: 'var(--color-surface)',
-                border: '1px solid var(--color-border)',
-                color: 'var(--color-text)',
-              }}
-            />
-            <button
-              type="submit"
-              className="px-4 py-2 rounded-sm text-sm transition-all hover:opacity-80"
-              style={{
-                backgroundColor: 'var(--color-surface)',
-                border: '1px solid var(--color-border)',
-                color: 'var(--color-text)',
-              }}
-            >
-              Search
-            </button>
-            {query && (
-              <a
-                href="/meetings"
-                className="px-4 py-2 rounded-sm text-sm transition-opacity hover:opacity-60 flex items-center"
-                style={{ color: 'var(--color-text-muted)' }}
-              >
-                Clear
-              </a>
-            )}
-          </form>
+          {/* Search — live as-you-type, debounced 300ms */}
+          <SearchInput initialValue={query} />
 
           {/* Empty states */}
           {hasNoMeetingsAtAll && (
