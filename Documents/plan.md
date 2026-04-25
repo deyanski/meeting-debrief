@@ -1,6 +1,6 @@
 # Plan: Meeting Debrief — Full Implementation
 
-**TL;DR**: Next.js 16+ App Router app. Server Components for all reads (direct Supabase), Server Actions for all mutations (save/delete/toggle), one Route Handler (`/api/debrief`) for the OpenRouter call. Magic link auth only. Deployed to Vercel. 4-hour hard stop.
+**TL;DR**: Next.js 16+ App Router app. Server Components for all reads (direct Supabase), Server Actions for all mutations (save/delete/toggle), one Route Handler (`/api/debrief`) for the OpenRouter call. GitHub OAuth only. Deployed to Vercel. 4-hour hard stop.
 
 ---
 
@@ -8,7 +8,7 @@
 - New meeting: dedicated page `/meetings/new`
 - Search: search bar on meetings list page (`?q=` query param)
 - AI failure: keep textarea populated, no localStorage persistence
-- Auth: magic link only, no OAuth
+- Auth: GitHub OAuth only (no magic link, no password)
 
 ---
 
@@ -31,14 +31,18 @@
 - **Edge case**: `next` param must start with `/` — guard against open redirect
 
 ### 1.4 Auth pages
-- `app/(auth)/sign-in/page.tsx` — email input → `supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: /auth/callback } })`
+- `app/(auth)/sign-in/page.tsx` — single "Continue with GitHub" button → `supabase.auth.signInWithOAuth({ provider: 'github', options: { redirectTo: \`${origin}/auth/callback\` } })`
 - `app/auth/callback/route.ts` — `exchangeCodeForSession(code)`, validate `next.startsWith('/')`, handle `x-forwarded-host` for Vercel
-- `app/auth/auth-code-error/page.tsx` — minimal fallback
+- `app/auth/auth-code-error/page.tsx` — minimal fallback for failed exchange
+
+Pre-deploy setup (external, not in code):
+1. GitHub → Developer settings → OAuth Apps → set Authorization callback URL to `https://<ref>.supabase.co/auth/v1/callback`
+2. Supabase → Authentication → Providers → GitHub → paste Client ID + Secret
 
 ### 1.5 First deploy
 - Push to GitHub → connect Vercel → set env vars: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `OPENROUTER_API_KEY`
-- Set Supabase Site URL to Vercel URL, add localhost to Redirect URLs
-- Verify magic link flow works end-to-end on deployed URL
+- Set Supabase Site URL to Vercel URL, add `http://localhost:3000` to Redirect URLs
+- Verify GitHub OAuth flow works end-to-end on deployed URL
 
 ---
 
