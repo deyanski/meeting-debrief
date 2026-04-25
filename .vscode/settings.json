@@ -14,6 +14,31 @@
         "/^if \\(Get-Command py -ErrorAction SilentlyContinue\\) \\{ py -3 -m pip install pdfplumber \\} elseif \\(Get-Command python -ErrorAction SilentlyContinue\\) \\{ python -m pip install pdfplumber \\} else \\{ Write-Error \"Python is not installed or not on PATH\\.\" \\}$/": {
             "approve": true,
             "matchCommandLine": true
+        },
+        "npx create-next-app@latest": true,
+        "/^node \"C:\\\\Program Files\\\\nodejs\\\\node_modules\\\\npm\\\\bin\\\\npx-cli\\.js\" create-next-app@latest \\. --typescript --tailwind --app --turbopack --no-src-dir --import-alias \"@/\\*\" --eslint --yes$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^node \"C:\\\\Program Files\\\\nodejs\\\\node_modules\\\\npm\\\\bin\\\\npm-cli\\.js\" install 2>&1$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^node \"C:\\\\Program Files\\\\nodejs\\\\node_modules\\\\npm\\\\bin\\\\npx-cli\\.js\" shadcn@latest init --yes --base-color stone --style new-york 2>&1$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^node \"C:\\\\Program Files\\\\nodejs\\\\node_modules\\\\npm\\\\bin\\\\npx-cli\\.js\" shadcn@latest init --yes 2>&1$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^node \"C:\\\\Program Files\\\\nodejs\\\\node_modules\\\\npm\\\\bin\\\\npm-cli\\.js\" run build 2>&1$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^node \"C:\\\\Program Files\\\\nodejs\\\\node_modules\\\\npm\\\\bin\\\\npm-cli\\.js\" run dev 2>&1$/": {
+            "approve": true,
+            "matchCommandLine": true
         }
     }
 }
