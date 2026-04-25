@@ -41,7 +41,17 @@ const AddItemSchema = z.object({
 export async function addActionItem(
   meetingId: string,
   text: string
-): Promise<{ error: string } | void> {
+): Promise<
+  | { error: string }
+  | {
+      item: {
+        id: string
+        text: string
+        owner: string | null
+        completed_at: string | null
+      }
+    }
+> {
   const supabase = await createClient()
   const { data: { session } } = await supabase.auth.getSession()
   if (!session) return { error: 'unauthorized' }
@@ -59,16 +69,30 @@ export async function addActionItem(
 
   if (!meeting) return { error: 'Meeting not found' }
 
-  const { error } = await supabase.from('action_items').insert({
-    meeting_id: meetingId,
-    user_id: session.user.id,
-    text: parsed.data.text,
-    owner: null,
-  })
+  const { data: insertedItem, error } = await supabase
+    .from('action_items')
+    .insert({
+      meeting_id: meetingId,
+      user_id: session.user.id,
+      text: parsed.data.text,
+      owner: null,
+    })
+    .select('id, text, owner, completed_at')
+    .single()
 
-  if (error) return { error: 'Failed to add action item' }
+  if (error || !insertedItem) return { error: 'Failed to add action item' }
 
   revalidatePath(`/meetings/${meetingId}`)
+  revalidatePath('/dashboard')
+
+  return {
+    item: {
+      id: insertedItem.id,
+      text: insertedItem.text,
+      owner: insertedItem.owner,
+      completed_at: insertedItem.completed_at,
+    },
+  }
 }
 
 // ── Delete meeting ────────────────────────────────────────────────────────────

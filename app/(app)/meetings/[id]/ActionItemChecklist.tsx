@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition, useRef } from 'react'
+import { useEffect, useState, useTransition, useRef } from 'react'
 import { updateActionItem, addActionItem } from './actions'
 
 type ActionItem = {
@@ -23,6 +23,14 @@ export function ActionItemChecklist({
   const [addError, setAddError] = useState<string | null>(null)
   const [isAdding, startAddTransition] = useTransition()
   const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    setItems((prev) => {
+      const byId = new Map(initialItems.map((item) => [item.id, item]))
+      const extras = prev.filter((item) => !byId.has(item.id))
+      return [...initialItems, ...extras]
+    })
+  }, [initialItems])
 
   async function handleToggle(item: ActionItem) {
     if (pendingId === item.id) return // prevent double-click
@@ -56,8 +64,15 @@ export function ActionItemChecklist({
 
     startAddTransition(async () => {
       const result = await addActionItem(meetingId, text)
-      if (result?.error) {
+      if (result && 'error' in result) {
         setAddError('Failed to add item. Try again.')
+      } else if (result && 'item' in result) {
+        setItems((prev) => {
+          if (prev.some((item) => item.id === result.item.id)) return prev
+          return [...prev, result.item]
+        })
+        setAddText('')
+        inputRef.current?.focus()
       } else {
         setAddText('')
         inputRef.current?.focus()
