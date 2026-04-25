@@ -117,7 +117,7 @@ Always move client-only UI into a Client Component and import it directly in you
 - **HTTP Methods:** Export async functions named after HTTP verbs (`GET`, `POST`, etc.).
 - **Request/Response:** Use the Web `Request` and `Response` APIs. Use `NextRequest`/`NextResponse` for advanced features.
 - **Dynamic Segments:** Use `[param]` for dynamic API routes (e.g., `app/api/users/[id]/route.ts`).
-- **Validation:** Always validate and sanitize input. Use libraries like `zod` or `yup`.
+- **Validation:** Always validate and sanitize input. Use `zod`.
 - **Error Handling:** Return appropriate HTTP status codes and error messages.
 - **Authentication:** Protect sensitive routes using middleware or server-side session checks.
 
@@ -133,7 +133,7 @@ Always move client-only UI into a Client Component and import it directly in you
   - In Next.js 16, `serverRuntimeConfig` / `publicRuntimeConfig` are removed. Use environment variables instead.
   - `NEXT_PUBLIC_` variables are **inlined at build time** (changing them after build won’t affect a deployed build).
   - If you truly need runtime evaluation of env in a dynamic context, follow Next.js guidance (e.g., call `connection()` before reading `process.env`).
-- **Testing:** Use Vitest, React Testing Library, or Playwright. Write tests for all critical logic and components.
+- **Testing:** Use Vitest, React Testing Library, or Playwright.
 - **Accessibility:** Use semantic HTML and ARIA attributes. Test with screen readers.
 - **Performance:**
   - Use built-in Image and Font optimization.

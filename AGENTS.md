@@ -31,7 +31,6 @@ Load the relevant skill BEFORE starting any task. Use `read_file` on the SKILL.m
 | Response validation | Zod — parse every AI response before saving |
 | Search | Postgres full-text search via `tsvector` + GIN index |
 | Unit testing | Vitest + @testing-library/react |
-| Browser (E2E) testing | Playwright (`@playwright/test`) — Chromium only |
 | Dev bundler | Turbopack (default in Next.js 16+, no config needed) |
 | Deployment | Vercel — `next build`, env vars set in Vercel dashboard |
 
@@ -46,6 +45,9 @@ app/
 │   ├── dashboard/       # Open action items across all meetings
 │   ├── meetings/        # Meeting list
 │   └── meetings/[id]/   # Meeting detail + checklist
+├── auth/
+│   ├── callback/        # PKCE code exchange — required for magic link & OAuth
+│   └── auth-code-error/ # Fallback shown when code exchange fails
 ├── api/
 │   └── debrief/         # POST — calls OpenRouter, returns structured JSON
 lib/
@@ -67,6 +69,7 @@ types/                   # TypeScript interfaces and Zod-inferred types
 - **RLS must be active** on `meetings` and `action_items` tables before any data is written. A user must never be able to read or write another user's rows.
 - **Validate all Route Handler input with Zod** before touching the database or calling the AI.
 - **Never trust client-supplied `user_id`** — always derive it server-side from the Supabase session.
+- **Supabase auth** requires `app/auth/callback/route.ts` — this is mandatory for magic link and OAuth flows.
 - Store all secrets in `.env.local` locally. Never commit `.env.local` to version control.
 
 Note: `proxy.ts` in Next.js 16+ uses the Node.js runtime. If a future requirement depends on Edge runtime specifically, revisit this convention before implementing it.
@@ -82,10 +85,13 @@ Note: `proxy.ts` in Next.js 16+ uses the Node.js runtime. If a future requiremen
 - The Zod schema must enforce: `title`, `date`, `summary`, `decisions[]`, `action_items[]`, `blockers[]`, `follow_up_email`.
 - `action_items[].owner` is nullable — never invent an owner if none was mentioned in the transcript.
 - If the transcript is too short or clearly not a meeting, return a structured `{ error: "not_a_meeting" }` and show a friendly UI message.
+- When `/api/debrief` returns `{ error: "not_a_meeting" }`, the client must render a friendly inline message inside the debrief form — not a toast, not a 500 page, not a raw JSON object.
 
 ---
 
 ## Testing Rules
+
+**Override:** The general Next.js instruction (`nextjs.instructions.md`) says "write tests for all critical logic and components." That rule does **not** apply here. Follow only the scoped rules below.
 
 Unit tests are **scoped** — do not test UI components or API route plumbing.
 
@@ -96,20 +102,17 @@ Test only:
 - Co-locate test files: `parseDebriefResponse.test.ts` next to the source file.
 - Run tests: `npm run test`
 - Run with coverage: `npm run test:coverage`
+- **Coverage target: 90%+ lines on the two scoped files.** Do not ship if coverage drops below this.
 - Never skip a failing test — fix it before moving on.
 - Vitest needs its own `vitest.config.ts` — do not attempt to share `next.config.ts`.
 
-### E2E Tests (Playwright)
+### Manual verification (pre-submission)
 
-Playwright tests are **scoped to two graded flows only** — do not write E2E tests for anything else.
+The spec requires manual checks against the deployed URL — not an automated test suite. Use the `webapp-testing` skill for this.
 
-1. **Privacy** — sign in as User A, copy a meeting URL, sign in as User B in a separate `browserContext`, confirm the URL returns a redirect or 404.
+Before recording the demo video, verify:
+1. **Privacy** — sign in as User A, copy a meeting URL, open a private/incognito window and sign in as User B, confirm the URL returns a redirect or 404.
 2. **Persistence** — tick an action item, reload the page, confirm the checkbox state is preserved.
-
-- Config: `playwright.config.ts` at project root — separate from `vitest.config.ts`, never merged.
-- Install: `npx playwright install --with-deps chromium` (Chromium only — no Firefox/WebKit needed).
-- Run: `npm run test:e2e`
-- E2E tests run against the local dev server
 
 ---
 
@@ -136,7 +139,7 @@ Playwright tests are **scoped to two graded flows only** — do not write E2E te
 ## Dependency Rules
 
 - Do not add packages without approval. If you need a new package, note it explicitly and wait for confirmation before installing.
-- Pre-approved packages for this project: `@supabase/supabase-js`, `openai`, `zod`, `tailwindcss`, `shadcn/ui`, `vitest`, `@testing-library/react`, `@vitejs/plugin-react`, `@playwright/test`.
+- Pre-approved packages for this project: `@supabase/supabase-js`, `openai`, `zod`, `tailwindcss`, `shadcn/ui`, `motion`, `vitest`, `@testing-library/react`, `@vitejs/plugin-react`.
 
 ---
 

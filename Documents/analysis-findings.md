@@ -33,45 +33,38 @@ Analysis of all instruction files, skills, and the project spec to identify cont
 - **Previous conflict:** The generic Next.js instructions used the v16 `proxy.ts` convention while `AGENTS.md` still implied `middleware.ts`.
 - **Resolution:** `AGENTS.md` now treats `proxy.ts` as the project convention and notes the Node.js runtime caveat for Next.js 16+ proxy files.
 
-### 3. Motion library — unapproved dependency
-- **Where:** `frontend-design` SKILL.md says _"Use Motion library for React when available."_
-- **Conflict:** `motion` is not in the AGENTS.md pre-approved packages list.
-- **Impact:** Copilot following the design skill will add `motion` without flagging it, violating the dependency rule.
-- **Fix:** Either add `motion` to the approved packages list in AGENTS.md, or add a note to the design skill override: _"Use CSS animations only — do not add the Motion library."_
+### 3. Motion library — RESOLVED
+- **Previous conflict:** `motion` was used by the `frontend-design` skill but was not in the AGENTS.md pre-approved packages list.
+- **Resolution:** `motion` has been added to the pre-approved packages list in `AGENTS.md`.
 
-### 4. Test scope conflict — MEDIUM RISK
-- **Where:** `nextjs.instructions.md` section 6 says _"Write tests for all critical logic and components."_
-- **Conflict:** AGENTS.md Testing Rules explicitly says _"Do not test UI components or API route plumbing"_ and scopes tests to exactly 2 files.
-- **Impact:** Under a 4-hour timebox, if Copilot follows `nextjs.instructions.md` it will generate component tests, wasting 30–45 minutes for zero grading benefit.
-- **Fix:** AGENTS.md wins for this project. Add override note in AGENTS.md: _"The test scope in `nextjs.instructions.md` does not apply — follow the scoped rules in this file."_
+### 4. Test scope conflict — RESOLVED
+- **Previous conflict:** `nextjs.instructions.md` said "write tests for all critical logic and components" while AGENTS.md scoped tests to exactly 2 files.
+- **Resolution:** An explicit override note has been added to the AGENTS.md Testing Rules section making it unambiguous that AGENTS.md wins.
 
-### 5. Zod vs yup ambiguity — LOW RISK
-- **Where:** `nextjs.instructions.md` says _"Use libraries like `zod` or `yup`."_
-- **Conflict:** AGENTS.md and `nextjs-tailwind.instructions.md` both specify Zod exclusively.
-- **Impact:** Low — Copilot will likely default to Zod, but could choose yup on some requests.
-- **Fix:** Remove "or yup" from `nextjs.instructions.md` validation guidance.
+### 5. Zod vs yup ambiguity — RESOLVED
+- **Previous conflict:** `nextjs.instructions.md` said "zod or yup" while AGENTS.md and the Tailwind instructions specified Zod exclusively.
+- **Resolution:** The "or yup" wording has been removed from `nextjs.instructions.md`. Zod is the only validation library for this project.
 
 ---
 
 ## OVERLAPS (informational — no action required)
 
-### 6. Design rules duplicated across 3 sources
-"No Inter font, no purple gradients, bold aesthetic" appears in:
-- `frontend-design` SKILL.md
-- `nextjs-tailwind.instructions.md`
-- `AGENTS.md` Design Rules
+### 6. Design rules across 2 sources — non-issue
+`nextjs-tailwind.instructions.md` does not exist in the workspace. Design guidance lives in exactly two places:
+- **`frontend-design` SKILL.md** — on-demand design methodology (typography, color, motion, layout philosophy)
+- **`AGENTS.md` Design Rules** — always-loaded project policy (graded screens, empty states, animation scope, no Inter/purple gradients)
 
-Currently consistent. Monitor for divergence during updates.
+These serve different purposes and are intentional layering, not redundancy. The one overlapping line ("no Inter / no purple gradients") is kept in AGENTS.md as a fast-read reminder that works without loading the skill. No action needed.
 
-### 7. Zod mentioned in 3 places
-- `nextjs.instructions.md` — "zod or yup"
-- `nextjs-tailwind.instructions.md` — "Zod for runtime type validation"
-- `AGENTS.md` — "Zod — parse every AI response"
+### 7. Zod mentions — non-issue
+`nextjs-tailwind.instructions.md` does not exist. The "or yup" wording was removed in fix #5. Zod now appears in exactly two places with consistent meaning:
+- `nextjs.instructions.md` — "Use `zod`" for Route Handler validation
+- `AGENTS.md` — "Zod — parse every AI response before saving"
 
-Harmless until one source changes. Resolved by fix #5 above.
+No drift risk. No action needed.
 
-### 8. RSC / App Router rules in 2 instruction files
-Both `nextjs.instructions.md` and `nextjs-tailwind.instructions.md` cover server vs client components, data fetching patterns, and Suspense. `nextjs.instructions.md` is the authoritative one — `nextjs-tailwind.instructions.md` can be trimmed to only Tailwind-specific content.
+### 8. RSC / App Router rules — non-issue
+`nextjs-tailwind.instructions.md` does not exist in the workspace. RSC and App Router guidance lives in exactly one place: `nextjs.instructions.md`. No duplication, no action needed.
 
 ---
 
@@ -109,9 +102,9 @@ Both `nextjs.instructions.md` and `nextjs-tailwind.instructions.md` cover server
 |---|---|---|---|
 | 1 | Resolved by adopting Next.js 16+ in `AGENTS.md` | Done | `AGENTS.md` |
 | 2 | Resolved by adopting `proxy.ts` naming in `AGENTS.md` | Done | `AGENTS.md` |
-| 3 | Add `motion` to approved packages OR restrict it in design rules | Medium | `AGENTS.md` |
-| 4 | Add test scope override note to AGENTS.md | Medium | `AGENTS.md` |
-| 5 | Remove "or yup" from `nextjs.instructions.md` | Low | `nextjs.instructions.md` |
+| 3 | Resolved — `motion` added to approved packages | Done | `AGENTS.md` |
+| 4 | Resolved — override note added to AGENTS.md Testing Rules | Done | `AGENTS.md` |
+| 5 | Resolved — "or yup" removed; Zod only | Done | `nextjs.instructions.md` |
 | 9 | Add Supabase auth callback route requirement to AGENTS.md | High | `AGENTS.md` |
 | 10 | Add `not_a_meeting` client UI handling rule to AGENTS.md | Medium | `AGENTS.md` |
 | 11 | Clarify search is required (not cuttable) in AGENTS.md | Medium | `AGENTS.md` |
