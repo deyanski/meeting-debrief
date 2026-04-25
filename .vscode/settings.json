@@ -1,0 +1,19 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^\\$script = @'\nfrom pathlib import Path\n\npdf_path = Path\\(r\"c:\\\\Users\\\\deyan\\\\Coding\\\\meeting-debrief\\\\Documentation\\\\homework-meeting-debrief-spec\\.pdf\"\\)\nout_path = Path\\(r\"c:\\\\Users\\\\deyan\\\\Coding\\\\meeting-debrief\\\\Documents\\\\homework-meeting-debrief-spec\\.md\"\\)\n\ntext_pages = \\[\\]\nextractor_used = None\nerror_msgs = \\[\\]\n\ntry:\n    import pdfplumber\n    extractor_used = \"pdfplumber\"\n    with pdfplumber\\.open\\(pdf_path\\) as pdf:\n        for i, page in enumerate\\(pdf\\.pages, 1\\):\n            txt = page\\.extract_text\\(layout=True\\)\n            if not txt:\n                txt = page\\.extract_text\\(\\) or \"\"\n            text_pages\\.append\\(\\(i, txt\\.rstrip\\(\\)\\)\\)\nexcept Exception as e:\n    error_msgs\\.append\\(f\"pdfplumber failed: \\{e\\}\"\\)\n\nif not text_pages:\n    try:\n        from pypdf import PdfReader\n        extractor_used = \"pypdf\"\n        reader = PdfReader\\(str\\(pdf_path\\)\\)\n        for i, page in enumerate\\(reader\\.pages, 1\\):\n            txt = page\\.extract_text\\(\\) or \"\"\n            text_pages\\.append\\(\\(i, txt\\.rstrip\\(\\)\\)\\)\n    except Exception as e:\n        error_msgs\\.append\\(f\"pypdf failed: \\{e\\}\"\\)\n\nif not text_pages:\n    raise RuntimeError\\(\"Could not extract text\\. \" \\+ \" \\| \"\\.join\\(error_msgs\\)\\)\n\nmd_lines = \\[\\]\nmd_lines\\.append\\(f\"# \\{pdf_path\\.stem\\}\"\\)\nmd_lines\\.append\\(\"\"\\)\nmd_lines\\.append\\(f\"_Source:_ `\\{pdf_path\\.name\\}`\"\\)\nmd_lines\\.append\\(\"\"\\)\nmd_lines\\.append\\(f\"_Extraction method:_ `\\{extractor_used\\}`\"\\)\nmd_lines\\.append\\(\"\"\\)\n\nfor page_num, txt in text_pages:\n    md_lines\\.append\\(f\"## Page \\{page_num\\}\"\\)\n    md_lines\\.append\\(\"\"\\)\n    # Keep original line layout in a fenced block for high-fidelity formatting\\.\n    md_lines\\.append\\(\"```text\"\\)\n    md_lines\\.append\\(txt\\)\n    md_lines\\.append\\(\"```\"\\)\n    md_lines\\.append\\(\"\"\\)\n\nout_path\\.write_text\\(\"\\\\n\"\\.join\\(md_lines\\), encoding=\"utf-8\"\\)\nprint\\(f\"Wrote: \\{out_path\\}\"\\)\nprint\\(f\"Pages extracted: \\{len\\(text_pages\\)\\}\"\\)\n'@; python -c \\$script$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "Get-Command": true,
+        "Write-Error": true,
+        "py": true,
+        "/^if \\(Get-Command py -ErrorAction SilentlyContinue\\) \\{ py -3 \"c:\\\\Users\\\\deyan\\\\Coding\\\\meeting-debrief\\\\Documents\\\\extract_pdf_to_md\\.py\" \\} elseif \\(Get-Command python -ErrorAction SilentlyContinue\\) \\{ python \"c:\\\\Users\\\\deyan\\\\Coding\\\\meeting-debrief\\\\Documents\\\\extract_pdf_to_md\\.py\" \\} else \\{ Write-Error \"Python is not installed or not on PATH\\.\" \\}$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^if \\(Get-Command py -ErrorAction SilentlyContinue\\) \\{ py -3 -m pip install pdfplumber \\} elseif \\(Get-Command python -ErrorAction SilentlyContinue\\) \\{ python -m pip install pdfplumber \\} else \\{ Write-Error \"Python is not installed or not on PATH\\.\" \\}$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
