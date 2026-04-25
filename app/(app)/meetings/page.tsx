@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { SignOutButton } from '@/components/SignOutButton'
 
 type Props = {
   searchParams: Promise<{ q?: string }>
@@ -69,6 +70,7 @@ export default async function MeetingsPage({ searchParams }: Props) {
         >
           + New Meeting
         </a>
+        <SignOutButton />
       </header>
 
       <main className="max-w-3xl mx-auto px-6 py-10">

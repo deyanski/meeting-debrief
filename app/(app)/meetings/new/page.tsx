@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react'
 import { saveMeeting } from '../actions'
 import type { Debrief } from '@/lib/ai/schema'
+import { SignOutButton } from '@/components/SignOutButton'
 
 type DraftState = Debrief & { raw_transcript: string }
 
@@ -114,6 +115,7 @@ export default function NewMeetingPage() {
             New Debrief
           </span>
         </div>
+        <SignOutButton />
       </header>
 
       <main className="max-w-3xl mx-auto px-6 py-10">

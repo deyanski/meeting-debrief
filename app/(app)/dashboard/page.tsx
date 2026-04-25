@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { ActionItemChecklist } from '../meetings/[id]/ActionItemChecklist'
+import { SignOutButton } from '@/components/SignOutButton'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -48,13 +49,16 @@ export default async function DashboardPage() {
         >
           Meeting Debrief
         </span>
-        <a
-          href="/meetings"
-          className="text-xs tracking-widest uppercase transition-opacity hover:opacity-60"
-          style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-text-muted)' }}
-        >
-          All Meetings →
-        </a>
+        <div className="flex items-center gap-6">
+          <a
+            href="/meetings"
+            className="text-xs tracking-widest uppercase transition-opacity hover:opacity-60"
+            style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-text-muted)' }}
+          >
+            All Meetings →
+          </a>
+          <SignOutButton />
+        </div>
       </header>
 
       <main className="max-w-3xl mx-auto px-6 py-10 flex flex-col gap-10">

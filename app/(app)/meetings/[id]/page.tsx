@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { ActionItemChecklist } from './ActionItemChecklist'
 import { DeleteMeetingButton } from './DeleteMeetingButton'
 import { CopyButton } from './CopyButton'
+import { SignOutButton } from '@/components/SignOutButton'
 
 type Props = {
   params: Promise<{ id: string }>
@@ -55,7 +56,10 @@ export default async function MeetingDetailPage({ params }: Props) {
             ← Meetings
           </a>
         </div>
-        <DeleteMeetingButton meetingId={meeting.id} />
+        <div className="flex items-center gap-6">
+          <DeleteMeetingButton meetingId={meeting.id} />
+          <SignOutButton />
+        </div>
       </header>
 
       <main className="max-w-3xl mx-auto px-6 py-10 flex flex-col gap-10">
