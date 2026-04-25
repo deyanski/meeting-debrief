@@ -8,4 +8,4 @@ Primary project config: see AGENTS.md
 
 ## General rules
 - **Dependency rule**: Don't add packages without approval;
-- **Test rule**: Run `npm run test` (unit) and `npm run test:e2e` (browser) before PRs; fix any failures.
+- **Test rule**: Run `npm run test` before PRs; fix any failures.

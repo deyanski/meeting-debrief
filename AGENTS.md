@@ -106,14 +106,6 @@ Test only:
 - Never skip a failing test — fix it before moving on.
 - Vitest needs its own `vitest.config.ts` — do not attempt to share `next.config.ts`.
 
-### Manual verification (pre-submission)
-
-The spec requires manual checks against the deployed URL — not an automated test suite. Use the `webapp-testing` skill for this.
-
-Before recording the demo video, verify:
-1. **Privacy** — sign in as User A, copy a meeting URL, open a private/incognito window and sign in as User B, confirm the URL returns a redirect or 404.
-2. **Persistence** — tick an action item, reload the page, confirm the checkbox state is preserved.
-
 ---
 
 ## Design Rules
@@ -143,10 +135,35 @@ Before recording the demo video, verify:
 
 ---
 
+## Supabase Rules
+- Server Components and Route Handlers → always use `lib/supabase/server.ts`
+- Client Components → use `lib/supabase/browser.ts` only
+- Never use the browser client in a Server Component — it leaks session handling
+- Always use explicit column selection — never `select('*')` in production queries
+- Never use the service role key outside of server-only contexts
+
+---
+
+## Route Handler Error Contract
+- 400 → bad input (Zod parse failure), return `{ error: string }`
+- 401 → unauthenticated, return `{ error: "unauthorized" }`
+- 500 → unexpected server error, return `{ error: "internal" }` — never expose raw messages
+
+---
+
+## Vitest Config
+- Use `@vitejs/plugin-react` in `vitest.config.ts`
+- Set `environment: 'jsdom'`
+- Never import from `next/` in unit test files — mock at the module level
+- Path alias `@/` must be mirrored in `vitest.config.ts` resolve.alias
+
+---
+
 ## Key Constraints from Spec
 
 - A user must **never** see another user's meetings or action items under any circumstance.
 - The AI result must be **editable before saving** — it is a draft, not a final answer.
 - Ticking an action item must **persist across a page refresh**.
 - The dashboard shows open action items **across all meetings**, sorted oldest first.
+- **Search is required for the demo video** — the happy path checklist includes it. Only cut it if you plan to rebuild it before recording.
 - Do not build: calendar integration, live recording, sharing, email sending, tags/folders, recurring items, native app.
