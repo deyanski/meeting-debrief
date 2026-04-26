@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState, useTransition, useRef } from 'react'
 import { saveMeeting } from '../actions'
 import type { Debrief } from '@/lib/ai/schema'
 import { SignOutButton } from '@/components/SignOutButton'
@@ -17,6 +17,13 @@ export default function NewMeetingPage() {
   const [debriefError, setDebriefError] = useState<string | null>(null)
   const [saveError, setSaveError] = useState<string | null>(null)
   const [isSaving, startSaveTransition] = useTransition()
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  function handleClear() {
+    setTranscript('')
+    setDebriefError(null)
+    textareaRef.current?.focus()
+  }
 
   async function handleDebrief() {
     if (transcript.trim().length < MIN_TRANSCRIPT_LENGTH) {
@@ -144,6 +151,7 @@ export default function NewMeetingPage() {
             </div>
 
             <textarea
+              ref={textareaRef}
               value={transcript}
               onChange={(e) => {
                 setTranscript(e.target.value)
@@ -171,24 +179,39 @@ export default function NewMeetingPage() {
               </p>
             )}
 
-            <button
-              onClick={handleDebrief}
-              disabled={loadingDebrief || transcript.trim().length < MIN_TRANSCRIPT_LENGTH}
-              className="self-start flex items-center gap-2 px-6 py-3 rounded-sm text-sm font-medium tracking-wide transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-              style={{
-                backgroundColor: 'var(--color-accent)',
-                color: 'var(--color-background)',
-              }}
-            >
-              {loadingDebrief ? (
-                <>
-                  <LoadingSpinner />
-                  Analysing transcript…
-                </>
-              ) : (
-                'Generate Debrief'
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleDebrief}
+                disabled={loadingDebrief || transcript.trim().length < MIN_TRANSCRIPT_LENGTH}
+                className="flex items-center gap-2 px-6 py-3 rounded-sm text-sm font-medium tracking-wide transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                style={{
+                  backgroundColor: 'var(--color-accent)',
+                  color: 'var(--color-background)',
+                }}
+              >
+                {loadingDebrief ? (
+                  <>
+                    <LoadingSpinner />
+                    Analysing transcript…
+                  </>
+                ) : (
+                  'Generate Debrief'
+                )}
+              </button>
+
+              {transcript.length > 0 && !loadingDebrief && (
+                <button
+                  onClick={handleClear}
+                  className="px-4 py-3 rounded-sm text-sm tracking-wide transition-opacity hover:opacity-60"
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    color: 'var(--color-text-muted)',
+                  }}
+                >
+                  Clear
+                </button>
               )}
-            </button>
+            </div>
           </div>
         ) : (
           // ── Editable draft phase ────────────────────────────────────────
