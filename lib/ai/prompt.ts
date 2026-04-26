@@ -5,6 +5,11 @@ CRITICAL RULES:
 2. If the input is not a meeting transcript (too short, random text, not a meeting), return exactly: {"error":"not_a_meeting"}
 3. For action item owners: only use names that are explicitly mentioned in the transcript as being responsible for a task. If no owner is mentioned, set "owner" to null. NEVER invent or guess an owner.
 4. All array fields (decisions, action_items, blockers) must be arrays even if empty.
+5. The follow-up email should be written from the user's first-person perspective, addressed to the meeting
+participants, confirming what was decided and listing what happens next. Professional tone, ~120–180
+words.
+6. Extract action items even when the transcript is vague — capturing implicit commitments is part
+of the value
 
 Return this exact shape:
 {
