@@ -94,35 +94,35 @@ export default function NewMeetingPage() {
     <div className="min-h-dvh" style={{ backgroundColor: 'var(--color-background)' }}>
       {/* Header */}
       <header
-        className="sticky top-0 z-10 flex items-center justify-between px-6 py-4"
+        className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4"
         style={{
           backgroundColor: 'var(--color-background)',
           borderBottom: '1px solid var(--color-border)',
         }}
       >
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
           <a
             href="/meetings"
-            className="text-xs tracking-widest uppercase transition-opacity hover:opacity-60"
+            className="text-xs tracking-widest uppercase transition-opacity hover:opacity-60 shrink-0"
             style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-text-muted)' }}
           >
             ← Meetings
           </a>
           <span style={{ color: 'var(--color-border)' }}>|</span>
           <span
-            className="text-xs tracking-widest uppercase"
+            className="text-xs tracking-widest uppercase truncate"
             style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-accent)' }}
           >
             New Debrief
           </span>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 shrink-0">
           <ThemeToggle />
           <SignOutButton />
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-6 py-10">
+      <main className="max-w-3xl mx-auto px-4 py-8 sm:px-6 sm:py-10">
         {!draft ? (
           // ── Transcript input phase ──────────────────────────────────────
           <div className="flex flex-col gap-6">

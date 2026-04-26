@@ -87,7 +87,7 @@ export default async function MeetingsPage({ searchParams }: Props) {
         <SignOutButton />
       </header>
 
-      <main className="max-w-3xl mx-auto px-6 py-10">
+      <main className="max-w-3xl mx-auto px-4 py-8 sm:px-6 sm:py-10">
         <div className="flex flex-col gap-8">
           <div>
             <h1

@@ -64,7 +64,7 @@ export default async function MeetingDetailPage({ params }: Props) {
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-6 py-10 flex flex-col gap-10">
+      <main className="max-w-3xl mx-auto px-4 py-8 sm:px-6 sm:py-10 flex flex-col gap-10">
         {/* Title + meta */}
         <div>
           <p

@@ -5,6 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  /* Breakpoints */
+  --breakpoint-xs: 480px;
+
   /* Custom tokens not managed by shadcn */
   --color-surface: #16161a;
   --color-surface-raised: #1e1e24;

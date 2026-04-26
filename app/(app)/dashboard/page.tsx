@@ -38,7 +38,7 @@ export default async function DashboardPage() {
   return (
     <div className="min-h-dvh" style={{ backgroundColor: 'var(--color-background)' }}>
       <header
-        className="sticky top-0 z-10 flex items-center justify-between px-6 py-4"
+        className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4"
         style={{
           backgroundColor: 'var(--color-background)',
           borderBottom: '1px solid var(--color-border)',
@@ -50,7 +50,7 @@ export default async function DashboardPage() {
         >
           Meeting Debrief
         </span>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 sm:gap-6">
           <a
             href="/meetings"
             className="text-xs tracking-widest uppercase transition-opacity hover:opacity-60"
@@ -63,7 +63,7 @@ export default async function DashboardPage() {
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-6 py-10 flex flex-col gap-10">
+      <main className="max-w-3xl mx-auto px-4 py-8 sm:px-6 sm:py-10 flex flex-col gap-10">
         <div>
           <h1
             className="text-4xl mb-1"

@@ -122,7 +122,7 @@ export function ActionItemChecklist({
       )}
 
       {/* Add new item inline */}
-      <div className="flex gap-2 mt-2">
+      <div className="flex flex-col xs:flex-row gap-2 mt-2">
         <input
           ref={inputRef}
           value={addText}
@@ -140,7 +140,7 @@ export function ActionItemChecklist({
         <button
           onClick={handleAdd}
           disabled={isAdding || !addText.trim()}
-          className="px-4 py-2 rounded-sm text-sm transition-all disabled:opacity-40"
+          className="w-full xs:w-auto px-4 py-2 rounded-sm text-sm transition-all disabled:opacity-40"
           style={{
             backgroundColor: 'var(--color-accent)',
             color: 'var(--color-background)',
