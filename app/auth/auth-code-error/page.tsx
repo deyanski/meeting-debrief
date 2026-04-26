@@ -49,7 +49,8 @@ export default function AuthCodeErrorPage() {
           maxWidth: '40ch',
         }}
       >
-        The sign-in link was invalid or has expired. Please try again.
+        The sign-in link was invalid or has expired. Magic link emails expire
+        after 1 hour. Please try signing in again.
       </p>
 
       <a

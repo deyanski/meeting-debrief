@@ -69,7 +69,7 @@ types/                   # TypeScript interfaces and Zod-inferred types
 - **RLS must be active** on `meetings` and `action_items` tables before any data is written. A user must never be able to read or write another user's rows.
 - **Validate all Route Handler input with Zod** before touching the database or calling the AI.
 - **Never trust client-supplied `user_id`** — always derive it server-side from the Supabase session.
-- **Auth method: GitHub OAuth only.** No magic link, no password, no other provider.
+- **Auth methods: GitHub OAuth (primary) + Magic Link email OTP (secondary).** No password auth, no other providers.
 - `app/auth/callback/route.ts` is mandatory — GitHub OAuth redirects here for `exchangeCodeForSession`. The GitHub OAuth app's Authorization callback URL must point to `https://<supabase-ref>.supabase.co/auth/v1/callback`, not your Vercel URL.
 - Store all secrets in `.env.local` locally. Never commit `.env.local` to version control.
 

@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import SignInButton from './sign-in-button'
+import MagicLinkForm from './MagicLinkForm'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -103,8 +104,24 @@ export default function SignInPage() {
             <SignInButton />
           </Suspense>
 
+          {/* Divider */}
+          <div className="flex items-center gap-3 w-full max-w-xs my-1">
+            <hr className="flex-1" style={{ borderColor: 'var(--color-border)' }} />
+            <span
+              className="text-xs"
+              style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-text-muted)' }}
+            >
+              or
+            </span>
+            <hr className="flex-1" style={{ borderColor: 'var(--color-border)' }} />
+          </div>
+
+          <Suspense fallback={<MagicLinkFormFallback />}>
+            <MagicLinkForm />
+          </Suspense>
+
           <p
-            className="mt-6 text-xs leading-relaxed"
+            className="mt-4 text-xs leading-relaxed"
             style={{ color: 'var(--color-text-muted)' }}
           >
             Your transcripts are processed by an AI model. No data is shared
@@ -122,5 +139,14 @@ function SignInButtonFallback() {
       className="h-12 rounded-sm opacity-50"
       style={{ backgroundColor: 'var(--color-surface)' }}
     />
+  )
+}
+
+function MagicLinkFormFallback() {
+  return (
+    <div className="w-full max-w-xs flex flex-col gap-2">
+      <div className="h-12 rounded-sm opacity-50" style={{ backgroundColor: 'var(--color-surface)' }} />
+      <div className="h-12 rounded-sm opacity-50" style={{ backgroundColor: 'var(--color-surface)' }} />
+    </div>
   )
 }
