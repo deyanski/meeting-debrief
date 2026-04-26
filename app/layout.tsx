@@ -33,7 +33,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={cn(dmSans.variable, dmSerifDisplay.variable, jetBrainsMono.variable, "font-sans", "dark")}>
+    <html lang="en" suppressHydrationWarning className={cn(dmSans.variable, dmSerifDisplay.variable, jetBrainsMono.variable, "font-sans")}>
+      <head>
+        {/* Anti-flash: apply saved theme before first paint */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   )

@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { ActionItemChecklist } from '../meetings/[id]/ActionItemChecklist'
 import { SignOutButton } from '@/components/SignOutButton'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -57,6 +58,7 @@ export default async function DashboardPage() {
           >
             All Meetings →
           </a>
+          <ThemeToggle />
           <SignOutButton />
         </div>
       </header>

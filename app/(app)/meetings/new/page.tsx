@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react'
 import { saveMeeting } from '../actions'
 import type { Debrief } from '@/lib/ai/schema'
 import { SignOutButton } from '@/components/SignOutButton'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 type DraftState = Debrief & { raw_transcript: string }
 
@@ -115,7 +116,10 @@ export default function NewMeetingPage() {
             New Debrief
           </span>
         </div>
-        <SignOutButton />
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          <SignOutButton />
+        </div>
       </header>
 
       <main className="max-w-3xl mx-auto px-6 py-10">

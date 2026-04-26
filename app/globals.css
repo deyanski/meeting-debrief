@@ -120,6 +120,38 @@ input[type="search"]::-webkit-search-cancel-button {
   --sidebar-ring: #d4a853;
 }
 
+/* Light theme — warm parchment, same character as dark */
+:root[data-theme="light"] {
+  --color-background: #f5f4ef;
+  --color-surface: #ebe9e2;
+  --color-surface-raised: #e0ddd5;
+  --color-text: #1a1916;
+  --color-text-muted: #6b6a78;
+  --color-accent: #b8872e;
+  --color-accent-hover: #9e7228;
+  --color-border: #d0cec5;
+  --color-destructive: #c0392b;
+
+  --background: #f5f4ef;
+  --foreground: #1a1916;
+  --card: #ebe9e2;
+  --card-foreground: #1a1916;
+  --popover: #ebe9e2;
+  --popover-foreground: #1a1916;
+  --primary: #b8872e;
+  --primary-foreground: #f5f4ef;
+  --secondary: #e0ddd5;
+  --secondary-foreground: #1a1916;
+  --muted: #e0ddd5;
+  --muted-foreground: #6b6a78;
+  --accent: #b8872e;
+  --accent-foreground: #f5f4ef;
+  --destructive: #c0392b;
+  --border: #d0cec5;
+  --input: #d0cec5;
+  --ring: #b8872e;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

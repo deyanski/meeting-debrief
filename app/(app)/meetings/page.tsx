@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { SignOutButton } from '@/components/SignOutButton'
 import { SearchInput } from '@/components/SearchInput'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 type Props = {
   searchParams: Promise<{ q?: string }>
@@ -82,6 +83,7 @@ export default async function MeetingsPage({ searchParams }: Props) {
         >
           + New Meeting
         </a>
+        <ThemeToggle />
         <SignOutButton />
       </header>
 
