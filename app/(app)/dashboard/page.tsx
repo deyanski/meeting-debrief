@@ -52,6 +52,13 @@ export default async function DashboardPage() {
         </span>
         <div className="flex items-center gap-4 sm:gap-6">
           <a
+            href="/meetings/new"
+            className="text-xs tracking-widest uppercase transition-opacity hover:opacity-60"
+            style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-accent)' }}
+          >
+            + New Meeting
+          </a>
+          <a
             href="/meetings"
             className="text-xs tracking-widest uppercase transition-opacity hover:opacity-60"
             style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-text-muted)' }}
@@ -117,17 +124,6 @@ export default async function DashboardPage() {
           </div>
         ))}
 
-        {items.length > 0 && (
-          <div className="flex justify-end pb-4">
-            <a
-              href="/meetings/new"
-              className="text-xs tracking-wider uppercase transition-opacity hover:opacity-60"
-              style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-accent)' }}
-            >
-              + New meeting
-            </a>
-          </div>
-        )}
       </main>
     </div>
   )

@@ -59,7 +59,7 @@ export default async function MeetingsPage({ searchParams }: Props) {
     <div className="min-h-dvh" style={{ backgroundColor: 'var(--color-background)' }}>
       {/* Header */}
       <header
-        className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 flex-wrap gap-3"
+        className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4"
         style={{
           backgroundColor: 'var(--color-background)',
           borderBottom: '1px solid var(--color-border)',
@@ -72,19 +72,17 @@ export default async function MeetingsPage({ searchParams }: Props) {
         >
           ← Dashboard
         </a>
-        <a
-          href="/meetings/new"
-          className="px-4 py-2 rounded-sm text-xs tracking-wider uppercase transition-all hover:opacity-80"
-          style={{
-            backgroundColor: 'var(--color-accent)',
-            color: 'var(--color-background)',
-            fontFamily: 'var(--font-mono)',
-          }}
-        >
-          + New Meeting
-        </a>
-        <ThemeToggle />
-        <SignOutButton />
+        <div className="flex items-center gap-4 sm:gap-6">
+          <a
+            href="/meetings/new"
+            className="text-xs tracking-widest uppercase transition-opacity hover:opacity-60"
+            style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-accent)' }}
+          >
+            + New Meeting
+          </a>
+          <ThemeToggle />
+          <SignOutButton />
+        </div>
       </header>
 
       <main className="max-w-3xl mx-auto px-4 py-8 sm:px-6 sm:py-10">
