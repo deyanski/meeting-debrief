@@ -50,40 +50,32 @@ export function SearchInput({ initialValue }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
-      <input
-        type="search"
-        value={value}
-        onChange={handleChange}
-        placeholder="Search meetings…"
-        className="flex-1 px-3 py-2 rounded-sm text-sm"
-        style={{
-          backgroundColor: 'var(--color-surface)',
-          border: '1px solid var(--color-border)',
-          color: 'var(--color-text)',
-        }}
-      />
-      <button
-        type="submit"
-        className="px-4 py-2 rounded-sm text-sm transition-all hover:opacity-80"
-        style={{
-          backgroundColor: 'var(--color-surface)',
-          border: '1px solid var(--color-border)',
-          color: 'var(--color-text)',
-        }}
-      >
-        Search
-      </button>
-      {value && (
-        <button
-          type="button"
-          onClick={handleClear}
-          className="px-4 py-2 rounded-sm text-sm transition-opacity hover:opacity-60"
-          style={{ color: 'var(--color-text-muted)' }}
-        >
-          Clear
-        </button>
-      )}
+    <form onSubmit={handleSubmit}>
+      <div className="relative">
+        <input
+          type="search"
+          value={value}
+          onChange={handleChange}
+          placeholder="Search meetings…"
+          className="w-full px-3 py-2 pr-10 rounded-sm text-sm"
+          style={{
+            backgroundColor: 'var(--color-surface)',
+            border: '1px solid var(--color-border)',
+            color: 'var(--color-text)',
+          }}
+        />
+        {value && (
+          <button
+            type="button"
+            onClick={handleClear}
+            className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center w-6 h-6 text-lg transition-opacity hover:opacity-60"
+            style={{ color: 'var(--color-text-muted)' }}
+            aria-label="Clear search"
+          >
+            ×
+          </button>
+        )}
+      </div>
     </form>
   )
 }
