@@ -35,10 +35,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={cn(dmSans.variable, dmSerifDisplay.variable, jetBrainsMono.variable, "font-sans")}>
       <head>
-        {/* Anti-flash: apply saved theme before first paint */}
+        {/* Anti-flash: respect OS preference for new users; localStorage overrides */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();`,
+            __html: `(function(){try{var s=localStorage.getItem('theme');if(s==='light'){document.documentElement.setAttribute('data-theme','light');}else if(s==='dark'){/* keep default */}else{if(!window.matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.setAttribute('data-theme','light');}}}catch(e){}})();`,
           }}
         />
       </head>

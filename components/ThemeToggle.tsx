@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
+  const [theme, setTheme] = useState<'dark' | 'light'>('light')
 
   // Read applied theme after mount (anti-flash script may have set data-theme="light")
   useEffect(() => {
