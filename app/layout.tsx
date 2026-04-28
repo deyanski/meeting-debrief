@@ -1,7 +1,8 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { DM_Sans, DM_Serif_Display, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
+import { ServiceWorkerRegistration } from '@/components/ServiceWorkerRegistration'
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -25,6 +26,21 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'Meeting Debrief',
   description: 'Turn meeting transcripts into structured, actionable debriefs.',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Meeting Debrief',
+  },
+}
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: dark)', color: '#d4a853' },
+    { media: '(prefers-color-scheme: light)', color: '#b8872e' },
+  ],
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
 }
 
 export default function RootLayout({
@@ -42,7 +58,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <ServiceWorkerRegistration />
+        {children}
+      </body>
     </html>
   )
 }

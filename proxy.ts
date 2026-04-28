@@ -38,7 +38,14 @@ export async function proxy(request: NextRequest) {
   const isPublicAsset =
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api/') ||
-    pathname === '/favicon.ico'
+    pathname === '/favicon.ico' ||
+    // PWA public resources — must be accessible without auth
+    pathname === '/manifest.webmanifest' ||
+    pathname.startsWith('/icons/') ||
+    pathname === '/sw.js' ||
+    pathname === '/offline' ||
+    pathname === '/icon' ||
+    pathname === '/apple-icon'
 
   const isProtectedRoute = !isAuthRoute && !isPublicAsset
 
@@ -64,6 +71,6 @@ export async function proxy(request: NextRequest) {
 
 export const proxyConfig = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon\.ico|manifest\.webmanifest|icons/|sw\.js|offline|icon|apple-icon|.*\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

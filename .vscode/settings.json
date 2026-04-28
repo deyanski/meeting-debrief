@@ -39,6 +39,7 @@
         "/^node \"C:\\\\Program Files\\\\nodejs\\\\node_modules\\\\npm\\\\bin\\\\npm-cli\\.js\" run dev 2>&1$/": {
             "approve": true,
             "matchCommandLine": true
-        }
+        },
+        "Set-ExecutionPolicy": true
     }
 }
